@@ -5,6 +5,10 @@ import API from '../services/api'; // Tumhara axios instance
 const SERVER = import.meta.env.VITE_SERVER_URL || 'http://localhost:5000';
 
 function LandingPage() {
+  const formatImage = (imgPath, placeholder = 'https://via.placeholder.com/300') => {
+    if (!imgPath) return placeholder;
+    return imgPath.startsWith('http') ? imgPath : `${SERVER}${imgPath}`;
+  };
   const [projects, setProjects] = useState([]);
   const [clients, setClients] = useState([]);
   
@@ -189,7 +193,7 @@ function LandingPage() {
             {projects.length > 0 ? projects.map(p => (
                <div key={p._id} className="bg-white shadow rounded overflow-hidden">
                  {/* Requirement: Project Image [cite: 13] */}
-                 <img src={p.image ? `${SERVER}${p.image}` : "https://via.placeholder.com/300"} className="w-full h-48 object-cover" />
+                 <img src={formatImage(p.image)} className="w-full h-48 object-cover" />
                  <div className="p-6">
                    {/* Requirement: Project Name [cite: 14] */}
                    <h3 className="font-bold text-blue-900 mb-2">{p.name}</h3>
@@ -212,7 +216,7 @@ function LandingPage() {
             {clients.map(c => (
               <div key={c._id} className="p-4 border border-transparent hover:border-gray-200 rounded-lg transition">
                  {/* Requirement: Client Image [cite: 36] */}
-                 <img src={c.image ? `${SERVER}${c.image}` : "https://via.placeholder.com/100"} className="w-16 h-16 rounded-full mx-auto mb-3 object-cover" />
+                 <img src={formatImage(c.image, 'https://via.placeholder.com/100')} className="w-16 h-16 rounded-full mx-auto mb-3 object-cover" />
                  {/* Requirement: Client Description [cite: 37] */}
                  <p className="text-xs text-gray-500 mb-4 italic">"{c.description}"</p>
                  {/* Requirement: Client Name [cite: 38] */}

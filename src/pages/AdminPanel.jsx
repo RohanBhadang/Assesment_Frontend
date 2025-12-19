@@ -4,6 +4,10 @@ import API from '../services/api';
 const SERVER = import.meta.env.VITE_SERVER_URL || 'http://localhost:5000';
 
 function AdminPanel() {
+  const formatImage = (imgPath, placeholder = '') => {
+    if (!imgPath) return placeholder;
+    return imgPath.startsWith('http') ? imgPath : `${SERVER}${imgPath}`;
+  };
   const [activeTab, setActiveTab] = useState('projects');
   const [projects, setProjects] = useState([]);
   const [clients, setClients] = useState([]);
@@ -148,7 +152,7 @@ function AdminPanel() {
             <div className="grid grid-cols-3 gap-4">
               {projects.map(p => (
                 <div key={p._id} className="bg-white p-4 shadow rounded">
-                  {p.image && <img src={`${SERVER}${p.image}`} className="h-32 w-full object-cover mb-2 rounded" />}
+                  {p.image && <img src={formatImage(p.image)} className="h-32 w-full object-cover mb-2 rounded" />}
                   <h4 className="font-bold">{p.name}</h4>
                   <p className="text-xs text-gray-500">{p.description}</p>
                 </div>
@@ -180,7 +184,7 @@ function AdminPanel() {
             <div className="grid grid-cols-3 gap-4">
               {clients.map(c => (
                 <div key={c._id} className="bg-white p-4 shadow rounded flex items-center gap-4">
-                  {c.image && <img src={`${SERVER}${c.image}`} className="h-12 w-12 rounded-full object-cover" />}
+                  {c.image && <img src={formatImage(c.image)} className="h-12 w-12 rounded-full object-cover" />}
                   <div>
                     <h4 className="font-bold">{c.name}</h4>
                     <p className="text-xs text-orange-500">{c.designation}</p>
